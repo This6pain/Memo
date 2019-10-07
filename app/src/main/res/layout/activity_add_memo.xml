@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".AddMemoActivity"
+    android:orientation="horizontal">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
+        android:id="@+id/add_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="メモ帳"
-        app:titleTextColor="#FFFFFF"
-        />
+        app:navigationIcon="@drawable/ic_back"
+        app:title="新規メモ"
+        app:titleTextColor="#FFFFFF" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/memoList"
+    <EditText
+        android:id="@+id/inputmemo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/list_item" />
+        android:layout_height="match_parent"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="ここで内容を書いて下さい。"
+        android:inputType="textPersonName" />
 
 </LinearLayout>
