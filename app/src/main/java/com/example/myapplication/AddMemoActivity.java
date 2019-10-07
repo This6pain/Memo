@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,6 @@ public class AddMemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_memo);
 
-        inputmemo =(EditText)findViewById(R.id.inputmemo);
         dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
 
         Toolbar tb = (Toolbar) findViewById(R.id.add_toolbar) ;
@@ -41,8 +41,8 @@ public class AddMemoActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case android.R.id.home:
+                inputmemo =(EditText)findViewById(R.id.inputmemo);
                 String content = inputmemo.getText().toString();
-
                 if(content.length()>0){
                     Memo memo = new Memo();
                     memo.setMemo(content);

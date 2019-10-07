@@ -6,13 +6,14 @@ public class Memo {
 
     int id;
     String memo;
-    Date date;
+    String date;
 
     public Memo(){
         // default
     }
     // create 시에 사용할 생성자
-    public Memo(String memo, Date date){
+    public Memo(int id, String memo, String date){
+        this.id = id;
         this.memo = memo;
         this.date = date;
     }
@@ -32,12 +33,12 @@ public class Memo {
         this.memo = memo;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = date.toString();
     }
 
 
