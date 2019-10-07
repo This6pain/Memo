@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,16 +12,21 @@ import android.widget.EditText;
 
 public class AddMemoActivity extends AppCompatActivity {
 
-    EditText inputmemo =(EditText)findViewById(R.id.inputmemo);
-
+    EditText inputmemo;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_memo);
 
+        inputmemo =(EditText)findViewById(R.id.inputmemo);
+        dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
+
         Toolbar tb = (Toolbar) findViewById(R.id.add_toolbar) ;
         setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -35,7 +39,18 @@ public class AddMemoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        switch (item.getItemId()){
+            case android.R.id.home:
+                String content = inputmemo.getText().toString();
 
+                if(content.length()>0){
+                    Memo memo = new Memo();
+                    memo.setMemo(content);
+                    dbHelper.addMemo(memo);
+                }
+                finish();
+        }
         return super.onOptionsItemSelected(item);
     }
+
 }

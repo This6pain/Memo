@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddMemoActivity"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    tools:context=".AddMemoActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_toolbar"
@@ -25,6 +25,7 @@
         android:ems="10"
         android:gravity="top"
         android:hint="ここで内容を書いて下さい。"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="15dp" />
 
 </LinearLayout>
