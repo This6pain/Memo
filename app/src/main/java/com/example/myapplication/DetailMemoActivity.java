@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,14 +59,26 @@ public class DetailMemoActivity extends AppCompatActivity {
                 }
                 finish();
                 break;
-            case R.id.delete:{
-                dbHelper.deleteMemo(position);
-                finish();
+
+            case R.id.delete:
+                final AlertDialog.Builder popup = new AlertDialog.Builder(this);
+                popup.setMessage("削除しますか？");
+                popup.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dbHelper.deleteMemo(getIntent().getExtras().getInt("position"));
+                        finish();
+                    }
+                });
+                popup.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                popup.show();
                 break;
             }
 
-
-        }
         return super.onOptionsItemSelected(item);
     }
 }
