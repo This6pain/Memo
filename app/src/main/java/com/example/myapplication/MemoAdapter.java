@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,24 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
 
         TextView mContent;
         TextView mDate;
+        TextView mTime;
         public MemoViewHolder(View v){
             super(v);
 
             mContent = v.findViewById(R.id.mContent);
             mDate = v.findViewById(R.id.mDate);
+            mTime = v.findViewById(R.id.mTime);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = memoList.get(getAdapterPosition()).getId();
+                    Intent intent = new Intent(v.getContext(), DetailMemoActivity.class);
+                    intent.putExtra("position", position);
+                    v.getContext().startActivity(intent);
+
+                }
+            });
+
         }
 
     }
@@ -46,9 +61,15 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
     @Override
     public void onBindViewHolder(@NonNull MemoViewHolder viewHolder, int position) {
 
-        String date = memoList.get(position).getDate().toString();
-        viewHolder.mContent.setText(memoList.get(position).getMemo());
-        viewHolder.mDate.setText(date);
+        String date = memoList.get(position).getDate();
+        if(memoList.get(position).getMemo().length()>30){
+            viewHolder.mContent.setText(memoList.get(position).getMemo().substring(0,30)+"...");
+        }else{
+            viewHolder.mContent.setText(memoList.get(position).getMemo());
+        }
+        viewHolder.mDate.setText(date.substring(0,10));
+        viewHolder.mTime.setText(date.substring(11));
+
     }
 
     @Override

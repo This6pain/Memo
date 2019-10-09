@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DFD7D7"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -15,8 +16,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="メモ帳"
-        app:titleTextColor="#FFFFFF"
-        />
+        app:titleTextColor="#FFFFFF" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/memoRecyclerView"

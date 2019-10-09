@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         init();
 
 
+
     }
 
     private void init() {
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Memo> memoList = dbHelper.getMemos();
         memoAdapter = new MemoAdapter(memoList);
         memoRecyclerView.setAdapter(memoAdapter);
+
+
     }
 
     @Override
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add:
 
                 Intent addIntent = new Intent(MainActivity.this, AddMemoActivity.class);
+
                 startActivity(addIntent);
 
         }
@@ -65,4 +69,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        init();
+    }
 }

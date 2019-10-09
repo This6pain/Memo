@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -35,7 +34,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void updateMemo(Memo memo){
         SQLiteDatabase db = getWritableDatabase();
         String content = memo.getMemo();
-        db.execSQL("UPDATE MEMO SET memo = '"+ content + "', date = CURRENT_TIMESTAMP WHERE -id = "+ memo.getId() +");");
+        int id = memo.getId();
+        db.execSQL("UPDATE MEMO SET memo = '"+ content + "'  WHERE _id = '"+ id +"';");
         db.close();
     }
 
@@ -47,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Memo> getMemos(){
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM MEMO";
+        String sql = "SELECT * FROM MEMO ORDER BY date DESC";
         ArrayList<Memo> memoList = new ArrayList<Memo>();
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.moveToFirst()){
@@ -60,5 +60,19 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return memoList;
+    }
+
+    public Memo getMemo(int position){
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM MEMO WHERE _id = " + position +";" ;
+        Cursor cursor = db.rawQuery(sql, null);
+        Memo memo = new Memo();
+        if(cursor.moveToFirst()){
+            memo.setId(Integer.parseInt(cursor.getString(0)));
+            memo.setMemo(cursor.getString(1));
+
+        }
+        cursor.close();
+        return memo;
     }
 }

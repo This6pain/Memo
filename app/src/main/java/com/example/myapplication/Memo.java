@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Memo {
 
-    int id;
-    String memo;
-    String date;
+    private int id;
+    private String memo;
+    private String date;
 
     public Memo(){
-        // default
     }
-    // create 시에 사용할 생성자
+
     public Memo(int id, String memo, String date){
         this.id = id;
         this.memo = memo;
         this.date = date;
     }
+
     public int getId() {
         return id;
     }
