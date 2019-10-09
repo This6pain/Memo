@@ -18,11 +18,31 @@
         app:title="メモ帳"
         app:titleTextColor="#FFFFFF" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/memoRecyclerView"
+    <FrameLayout
+        android:id="@+id/memoFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/list_item" />
+        >
+
+        <TextView
+            android:id="@+id/noMemo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="メモがありません"
+            android:textSize="36sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/memoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/list_item" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </FrameLayout>
 
 </LinearLayout>

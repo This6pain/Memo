@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView memoRecyclerView;
     MemoAdapter memoAdapter;
     DBHelper dbHelper;
+    TextView noMemo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         memoRecyclerView = (RecyclerView) findViewById(R.id.memoRecyclerView);
+        noMemo = (TextView) findViewById(R.id.noMemo);
 
         Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar) ;
         setSupportActionBar(tb);
@@ -41,8 +47,16 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
 
         ArrayList<Memo> memoList = dbHelper.getMemos();
-        memoAdapter = new MemoAdapter(memoList);
-        memoRecyclerView.setAdapter(memoAdapter);
+        if(memoList.size()>0){
+            noMemo.setVisibility(View.GONE);
+            memoRecyclerView.setVisibility(View.VISIBLE);
+            memoAdapter = new MemoAdapter(memoList);
+            memoRecyclerView.setAdapter(memoAdapter);
+        }else{
+            memoRecyclerView.setVisibility(View.GONE);
+            noMemo.setVisibility(View.VISIBLE);
+        }
+
 
 
     }
