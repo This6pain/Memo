@@ -21,6 +21,7 @@ public class AddMemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_memo);
 
         dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
+        inputmemo =(EditText)findViewById(R.id.inputmemo);
 
         Toolbar tb = (Toolbar) findViewById(R.id.add_toolbar) ;
         setSupportActionBar(tb);
@@ -40,8 +41,8 @@ public class AddMemoActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case android.R.id.home:
-                inputmemo =(EditText)findViewById(R.id.inputmemo);
                 String content = inputmemo.getText().toString();
+                content = content.replaceAll("'","''");
                 if(content.length()>0){
                     Memo memo = new Memo();
                     memo.setMemo(content);
@@ -53,4 +54,15 @@ public class AddMemoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        String content = inputmemo.getText().toString();
+        content = content.replaceAll("'","''");
+        if(content.length()>0){
+            Memo memo = new Memo();
+            memo.setMemo(content);
+            dbHelper.addMemo(memo);
+        }
+        super.onBackPressed();
+    }
 }

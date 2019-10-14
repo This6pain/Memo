@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add:
-
-                Intent addIntent = new Intent(MainActivity.this, AddMemoActivity.class);
-
+                boolean menuCheck = true;
+                Intent addIntent = new Intent(MainActivity.this, DetailMemoActivity.class);
+                addIntent.putExtra("menuCheck",menuCheck);
                 startActivity(addIntent);
 
         }

@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class DetailMemoActivity extends AppCompatActivity {
@@ -17,47 +19,64 @@ public class DetailMemoActivity extends AppCompatActivity {
     TextView detailmemo;
     DBHelper dbHelper;
     Memo memo;
+    Toolbar tb1 = null;
+    Toolbar tb2 = null;
+    boolean check = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_memo);
 
-        Toolbar tb = (Toolbar) findViewById(R.id.detail_toolbar) ;
-        setSupportActionBar(tb);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
         detailmemo = (TextView) findViewById(R.id.detailmemo);
 
-        int position = getIntent().getExtras().getInt("position");
-        memo = dbHelper.getMemo(position);
-        detailmemo.setText(memo.getMemo());
+        check = getIntent().getExtras().getBoolean("menuCheck");
+
+        tb1 = (Toolbar) findViewById(R.id.add_toolbar) ;
+        tb2 = (Toolbar) findViewById(R.id.detail_toolbar) ;
+
+        if(check == true){
+            tb1.setVisibility(View.VISIBLE);
+            tb2.setVisibility(View.INVISIBLE);
+            setSupportActionBar(tb1);
+            detailmemo.setHint("ここで内容を書いて下さい。");
+        }else{
+            tb1.setVisibility(View.INVISIBLE);
+            tb2.setVisibility(View.VISIBLE);
+            setSupportActionBar(tb2);
+            int position = getIntent().getExtras().getInt("position");
+            memo = dbHelper.getMemo(position);
+            detailmemo.setText(memo.getMemo());
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.detail_menu, menu);
+        check = getIntent().getExtras().getBoolean("menuCheck");
+        if(check == true){
+            menuInflater.inflate(R.menu.add_menu, menu);
+        }else{
+            menuInflater.inflate(R.menu.detail_menu, menu);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int position = getIntent().getExtras().getInt("position");
+//        boolean check = getIntent().getExtras().getBoolean("menuCheck");
 
         switch (item.getItemId()){
             case android.R.id.home:
-                String content = detailmemo.getText().toString();
-                if(content.length()>0){
-                    Memo memo = new Memo();
-                    memo.setMemo(content);
-                    memo.setId(position);
-                    dbHelper.updateMemo(memo);
-                }else {
-                    dbHelper.deleteMemo(position);
-                }
+                backAction(position);
                 finish();
+
                 break;
 
             case R.id.delete:
@@ -80,5 +99,31 @@ public class DetailMemoActivity extends AppCompatActivity {
             }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        int position = getIntent().getExtras().getInt("position");
+        backAction(position);
+        super.onBackPressed();
+    }
+
+    public void backAction(int position){
+        String content = detailmemo.getText().toString();
+        content = content.replaceAll("'","''");
+
+        if(content.length()>0){
+            Memo memo = new Memo();
+            memo.setMemo(content);
+
+            if(check == true){
+                dbHelper.addMemo(memo);
+            }else{
+                memo.setId(position);
+                dbHelper.updateMemo(memo);
+            }
+
+        }else {
+            dbHelper.deleteMemo(position);
+        }
     }
 }
