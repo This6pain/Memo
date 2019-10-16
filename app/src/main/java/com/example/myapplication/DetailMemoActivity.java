@@ -22,7 +22,7 @@ public class DetailMemoActivity extends AppCompatActivity {
     Toolbar tb1 = null;
     Toolbar tb2 = null;
     boolean check = false;
-    int position;
+    int position = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,10 @@ public class DetailMemoActivity extends AppCompatActivity {
         detailmemo = (TextView) findViewById(R.id.detailmemo);
 
 //        check = getIntent().getExtras().getBoolean("menuCheck");
-        position = getIntent().getExtras().getInt("position");
+
+        if(getIntent().getExtras() != null){
+            position = getIntent().getExtras().getInt("position");
+        }
 
         tb1 = (Toolbar) findViewById(R.id.add_toolbar) ;
         tb2 = (Toolbar) findViewById(R.id.detail_toolbar) ;
@@ -59,11 +62,11 @@ public class DetailMemoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        check = getIntent().getExtras().getBoolean("menuCheck");
-        if(check == true){
-            menuInflater.inflate(R.menu.add_menu, menu);
-        }else{
+//        check = getIntent().getExtras().getBoolean("menuCheck");
+        if(position > 0){
             menuInflater.inflate(R.menu.detail_menu, menu);
+        }else{
+            menuInflater.inflate(R.menu.add_menu, menu);
         }
 
         return true;
