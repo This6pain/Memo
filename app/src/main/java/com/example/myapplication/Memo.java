@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Memo {
@@ -34,7 +36,20 @@ public class Memo {
     }
 
     public String getDate() {
-        return date;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy年MM月dd日 HH時mm分ss秒");
+        Date dateTime;
+        String newDate = "";
+        try {
+            dateTime = format.parse(date);
+            newDate = outputFormat.format(dateTime);
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+
+        return newDate;
     }
 
     public void setDate(Date date) {

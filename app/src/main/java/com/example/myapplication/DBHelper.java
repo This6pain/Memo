@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE MEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, memo TEXT, date DATETIME DEFAULT CURRENT_TIMESTAMP);");
+        db.execSQL("CREATE TABLE MEMO (_id INTEGER PRIMARY KEY AUTOINCREMENT, memo TEXT, date DATETIME DEFAULT (DATETIME('now','localtime')));");
 
     }
 
@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String content = memo.getMemo();
         int id = memo.getId();
-        db.execSQL("UPDATE MEMO SET memo = '"+ content + "'  WHERE _id = '"+ id +"';");
+        db.execSQL("UPDATE MEMO SET memo = '"+ content + "', date = (DATETIME('now','localtime')) WHERE _id = '"+ id +"';");
         db.close();
     }
 

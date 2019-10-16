@@ -22,6 +22,7 @@ public class DetailMemoActivity extends AppCompatActivity {
     Toolbar tb1 = null;
     Toolbar tb2 = null;
     boolean check = false;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +32,24 @@ public class DetailMemoActivity extends AppCompatActivity {
         dbHelper = new DBHelper(getApplicationContext(), "Memo.db", null, 1);
         detailmemo = (TextView) findViewById(R.id.detailmemo);
 
-        check = getIntent().getExtras().getBoolean("menuCheck");
+//        check = getIntent().getExtras().getBoolean("menuCheck");
+        position = getIntent().getExtras().getInt("position");
 
         tb1 = (Toolbar) findViewById(R.id.add_toolbar) ;
         tb2 = (Toolbar) findViewById(R.id.detail_toolbar) ;
 
-        if(check == true){
-            tb1.setVisibility(View.VISIBLE);
-            tb2.setVisibility(View.INVISIBLE);
-            setSupportActionBar(tb1);
-            detailmemo.setHint("ここで内容を書いて下さい。");
-        }else{
+        if(position > 0){
             tb1.setVisibility(View.INVISIBLE);
             tb2.setVisibility(View.VISIBLE);
             setSupportActionBar(tb2);
             int position = getIntent().getExtras().getInt("position");
             memo = dbHelper.getMemo(position);
             detailmemo.setText(memo.getMemo());
+        }else{
+            tb1.setVisibility(View.VISIBLE);
+            tb2.setVisibility(View.INVISIBLE);
+            setSupportActionBar(tb1);
+            detailmemo.setHint("ここで内容を書いて下さい。");
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,12 +71,11 @@ public class DetailMemoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int position = getIntent().getExtras().getInt("position");
 //        boolean check = getIntent().getExtras().getBoolean("menuCheck");
 
         switch (item.getItemId()){
             case android.R.id.home:
-                backAction(position);
+                backAction();
                 finish();
 
                 break;
@@ -102,12 +103,12 @@ public class DetailMemoActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        int position = getIntent().getExtras().getInt("position");
-        backAction(position);
+//        int position = getIntent().getExtras().getInt("position");
+        backAction();
         super.onBackPressed();
     }
 
-    public void backAction(int position){
+    public void backAction(){
         String content = detailmemo.getText().toString();
         content = content.replaceAll("'","''");
 
@@ -115,11 +116,11 @@ public class DetailMemoActivity extends AppCompatActivity {
             Memo memo = new Memo();
             memo.setMemo(content);
 
-            if(check == true){
-                dbHelper.addMemo(memo);
-            }else{
+            if(position > 0){
                 memo.setId(position);
                 dbHelper.updateMemo(memo);
+            }else{
+                dbHelper.addMemo(memo);
             }
 
         }else {

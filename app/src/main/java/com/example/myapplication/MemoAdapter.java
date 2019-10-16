@@ -67,8 +67,8 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
         }else{
             viewHolder.mContent.setText(memoList.get(position).getMemo());
         }
-        viewHolder.mDate.setText(date.substring(0,10));
-        viewHolder.mTime.setText(date.substring(11));
+        viewHolder.mDate.setText(date.substring(0,11));
+        viewHolder.mTime.setText(date.substring(12));
 
     }
 

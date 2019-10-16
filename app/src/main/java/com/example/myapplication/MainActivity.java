@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     DBHelper dbHelper;
     TextView noMemo;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add:
-                boolean menuCheck = true;
+//                boolean menuCheck = true;
                 Intent addIntent = new Intent(MainActivity.this, DetailMemoActivity.class);
-                addIntent.putExtra("menuCheck",menuCheck);
+//                addIntent.putExtra("menuCheck",menuCheck);
                 startActivity(addIntent);
 
         }
